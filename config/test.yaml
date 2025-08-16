@@ -31,15 +31,15 @@ webServer:
 # This is the database setup for your test server.
 database:
   host: localhost
-  port: 9090
-  name: pfandler_backend_test
+  port: 0  # Will use dynamic port assignment
+  name: pfandler_test
   user: postgres
 
 # This is the setup for your Redis test instance.
 redis:
-  enabled: false
+  enabled: false  # Disable Redis for tests to avoid connection issues
   host: localhost
-  port: 9091
+  port: 0
   #user: # defaults to empty
   #requireSsl: true # defaults to false
 

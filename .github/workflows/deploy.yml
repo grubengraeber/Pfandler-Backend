@@ -51,7 +51,11 @@ jobs:
         run: dart pub get
       
       - name: Run tests
-        run: dart test
+        run: |
+          # Use CI-specific configuration
+          cp config/test_ci.yaml config/test.yaml
+          cp config/passwords_ci.yaml config/passwords.yaml
+          dart test
         env:
           DATABASE_HOST: localhost
           DATABASE_PORT: 5432

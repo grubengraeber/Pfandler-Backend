@@ -1,0 +1,40 @@
+# Test configuration specifically for CI/CD environments
+# This file is used when running tests in GitHub Actions
+
+# Configuration for the main API test server.
+apiServer:
+  port: 0
+  publicHost: localhost
+  publicPort: 0
+  publicScheme: http
+
+# Configuration for the Insights test server.
+insightsServer:
+  port: 0
+  publicHost: localhost
+  publicPort: 0
+  publicScheme: http
+
+# Configuration for the web test server.
+webServer:
+  port: 0
+  publicHost: localhost
+  publicPort: 0
+  publicScheme: http
+
+# Database configuration for CI/CD
+database:
+  host: localhost
+  port: 5432
+  name: pfandler_test
+  user: postgres
+
+# Redis configuration for CI/CD
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+
+sessionLogs:
+  persistentEnabled: true
+  consoleEnabled: true
