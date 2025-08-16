@@ -1,0 +1,18 @@
+class: LocationReport
+table: location_report
+fields:
+  locationId:
+    type: int
+    scope: all
+  userId:
+    type: int
+    scope: all
+  status:
+    type: String
+    scope: all
+  note:
+    type: String?
+    scope: all
+  createdAt:
+    type: DateTime
+    scope: all

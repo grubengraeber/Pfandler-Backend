@@ -1,0 +1,25 @@
+class: User
+table: user
+fields:
+  email:
+    type: String
+    scope: all
+  passwordHash:
+    type: String?
+    scope: serverOnly
+  salt:
+    type: String?
+    scope: serverOnly
+  createdAt:
+    type: DateTime
+    scope: all
+  lastLoginAt:
+    type: DateTime?
+    scope: all
+  settingsJson:
+    type: String?
+    scope: all
+indexes:
+  user_email_idx:
+    fields: email
+    unique: true

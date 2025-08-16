@@ -1,0 +1,25 @@
+class: ReturnSession
+table: return_session
+fields:
+  userId:
+    type: int
+    scope: all
+  locationId:
+    type: int?
+    scope: all
+  startedAt:
+    type: DateTime
+    scope: all
+  endedAt:
+    type: DateTime?
+    scope: all
+  totalDepositCents:
+    type: int?
+    scope: all
+  note:
+    type: String?
+    scope: all
+indexes:
+  return_session_user_started_idx:
+    fields: userId, startedAt
+    type: btree

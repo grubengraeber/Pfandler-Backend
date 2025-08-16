@@ -1,0 +1,5 @@
+class: RefreshTokenRequest
+fields:
+  refreshToken:
+    type: String
+    scope: all

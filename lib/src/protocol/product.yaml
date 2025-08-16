@@ -1,0 +1,31 @@
+class: Product
+table: product
+fields:
+  barcode:
+    type: String
+    scope: all
+  name:
+    type: String
+    scope: all
+  brand:
+    type: String?
+    scope: all
+  volumeML:
+    type: int?
+    scope: all
+  containerType:
+    type: String?
+    scope: all
+  defaultDepositCents:
+    type: int?
+    scope: all
+  verifiedAt:
+    type: DateTime?
+    scope: all
+  communityConfidence:
+    type: double?
+    scope: all
+indexes:
+  product_barcode_idx:
+    fields: barcode
+    unique: true

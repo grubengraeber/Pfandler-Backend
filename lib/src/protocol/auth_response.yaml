@@ -1,0 +1,14 @@
+class: AuthResponse
+fields:
+  user:
+    type: User
+    scope: all
+  token:
+    type: String
+    scope: all
+  refreshToken:
+    type: String?
+    scope: all
+  expiresIn:
+    type: int
+    scope: all

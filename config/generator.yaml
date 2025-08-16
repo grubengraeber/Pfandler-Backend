@@ -1,0 +1,5 @@
+type: server
+
+# Client path disabled since we don't have a client package
+# client_package_path: ../pfandler_backend_client
+server_test_tools_path: test/integration/test_tools

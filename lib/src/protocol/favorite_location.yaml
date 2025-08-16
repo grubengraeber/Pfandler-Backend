@@ -1,0 +1,13 @@
+class: FavoriteLocation
+table: favorite_location
+fields:
+  userId:
+    type: int
+    scope: all
+  locationId:
+    type: int
+    scope: all
+indexes:
+  favorite_location_unique_idx:
+    fields: userId, locationId
+    unique: true

@@ -1,0 +1,11 @@
+class: StatsBreakdown
+fields:
+  label:
+    type: String
+    scope: all
+  count:
+    type: int
+    scope: all
+  depositCents:
+    type: int
+    scope: all

@@ -1,0 +1,11 @@
+class: LocationFilter
+fields:
+  type:
+    type: String?
+    scope: all
+  maxDistance:
+    type: double?
+    scope: all
+  isOpen:
+    type: bool?
+    scope: all

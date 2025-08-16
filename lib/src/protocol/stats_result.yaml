@@ -1,0 +1,8 @@
+class: StatsResult
+fields:
+  count:
+    type: int
+    scope: all
+  depositCents:
+    type: int
+    scope: all

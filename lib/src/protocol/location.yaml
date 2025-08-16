@@ -1,0 +1,31 @@
+class: Location
+table: location
+fields:
+  name:
+    type: String
+    scope: all
+  type:
+    type: String
+    scope: all
+  lat:
+    type: double
+    scope: all
+  lng:
+    type: double
+    scope: all
+  address:
+    type: String?
+    scope: all
+  googleMapsUrl:
+    type: String?
+    scope: all
+  acceptsJson:
+    type: String?
+    scope: all
+  openingHoursJson:
+    type: String?
+    scope: all
+indexes:
+  location_coords_idx:
+    fields: lat, lng
+    type: btree

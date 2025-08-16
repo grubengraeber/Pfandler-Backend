@@ -1,0 +1,34 @@
+class: Scan
+table: scan
+fields:
+  sessionId:
+    type: int?
+    scope: all
+  userId:
+    type: int
+    scope: all
+  productId:
+    type: int?
+    scope: all
+  barcode:
+    type: String
+    scope: all
+  volumeML:
+    type: int?
+    scope: all
+  containerType:
+    type: String?
+    scope: all
+  depositCents:
+    type: int?
+    scope: all
+  createdAt:
+    type: DateTime
+    scope: all
+  source:
+    type: String
+    scope: all
+indexes:
+  scan_user_created_idx:
+    fields: userId, createdAt
+    type: btree

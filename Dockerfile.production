@@ -1,0 +1,56 @@
+# Multi-stage production build for Serverpod
+# Stage 1: Build stage
+FROM dart:3.6.1 AS build
+
+WORKDIR /app
+
+# Copy pubspec files first for better caching
+COPY pubspec.* ./
+RUN dart pub get
+
+# Copy source code
+COPY . .
+
+# Compile to native executable for better performance
+RUN dart compile exe bin/main.dart -o bin/server
+
+# Stage 2: Runtime stage
+FROM debian:bookworm-slim
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    libssl3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for security
+RUN useradd -m -u 1000 serverpod
+
+WORKDIR /app
+
+# Copy compiled server and required files
+COPY --from=build --chown=serverpod:serverpod /app/bin/server ./server
+COPY --from=build --chown=serverpod:serverpod /app/config/ ./config/
+COPY --from=build --chown=serverpod:serverpod /app/web/ ./web/
+COPY --from=build --chown=serverpod:serverpod /app/migrations/ ./migrations/
+COPY --from=build --chown=serverpod:serverpod /app/lib/src/generated/protocol.yaml ./lib/src/generated/protocol.yaml
+
+# Switch to non-root user
+USER serverpod
+
+# Environment variables for production
+ENV runmode=production
+ENV serverid=default
+ENV logging=normal
+ENV role=monolith
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+# Expose ports
+EXPOSE 8080 8081 8082
+
+# Run server
+ENTRYPOINT ["./server"]
+CMD ["--mode=production", "--server-id=default", "--logging=normal", "--role=monolith"]

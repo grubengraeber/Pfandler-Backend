@@ -1,0 +1,53 @@
+# This is the configuration file for your production environment.
+# Updated for api.pfandler.fabiotietz.com deployment
+
+# Configuration for the main API server.
+apiServer:
+  port: 8080
+  publicHost: api.pfandler.fabiotietz.com
+  publicPort: 443
+  publicScheme: https
+
+# Configuration for the Insights server.
+insightsServer:
+  port: 8081
+  publicHost: api.pfandler.fabiotietz.com
+  publicPort: 443
+  publicScheme: https
+
+# Configuration for the web server.
+webServer:
+  port: 8082
+  publicHost: api.pfandler.fabiotietz.com
+  publicPort: 443
+  publicScheme: https
+
+# Database configuration - using local PostgreSQL in Docker
+database:
+  host: postgres  # Docker service name if using docker-compose
+  port: 5432
+  name: pfandler_production
+  user: postgres
+  requireSsl: false  # Set to false for local Docker connection
+  #isUnixSocket: false
+
+# Redis configuration - using local Redis in Docker
+redis:
+  enabled: true
+  host: redis  # Docker service name if using docker-compose
+  port: 6379
+  #user: # defaults to empty
+  requireSsl: false
+
+maxRequestSize: 524288 # The maximum size of requests allowed in bytes
+
+sessionLogs:
+  consoleEnabled: true  # Enable for debugging
+  persistentEnabled: true
+  consoleLogFormat: json # Defaults to "json", options are "text" or "json"
+
+futureCallExecutionEnabled: true # Defaults to true
+
+#futureCall:
+#  concurrencyLimit: 1 # Defaults to 1, a negative or null value removes the limit
+#  scanInterval: 5000 # Unit in milliseconds, defaults to 5000

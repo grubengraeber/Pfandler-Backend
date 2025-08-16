@@ -1,0 +1,23 @@
+class: PendingProduct
+fields:
+  barcode:
+    type: String
+    scope: all
+  name:
+    type: String
+    scope: all
+  brand:
+    type: String?
+    scope: all
+  volumeML:
+    type: int?
+    scope: all
+  containerType:
+    type: String?
+    scope: all
+  defaultDepositCents:
+    type: int?
+    scope: all
+  suggestedBy:
+    type: int
+    scope: all

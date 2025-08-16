@@ -1,0 +1,15 @@
+class: Badge
+table: badge
+fields:
+  name:
+    type: String
+    scope: all
+  description:
+    type: String
+    scope: all
+  iconUrl:
+    type: String?
+    scope: all
+  criteria:
+    type: String?
+    scope: all

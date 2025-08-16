@@ -1,0 +1,8 @@
+class: AuthRequest
+fields:
+  email:
+    type: String
+    scope: all
+  password:
+    type: String
+    scope: all

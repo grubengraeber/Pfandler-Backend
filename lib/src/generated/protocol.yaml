@@ -1,0 +1,46 @@
+auth:
+  - registerWithEmail:
+  - loginWithEmail:
+  - refreshToken:
+  - getCurrentUser:
+  - linkDevice:
+  - logout:
+  - changePassword:
+catalog:
+  - getProductByBarcode:
+  - suggestProduct:
+  - searchProducts:
+  - verifyProduct:
+  - lookupProductExternal:
+  - enrichProductData:
+location:
+  - nearby:
+  - searchAllAustria:
+  - reportStatus:
+  - addLocation:
+  - getFavorites:
+  - addFavorite:
+  - removeFavorite:
+  - importAustrianStores:
+  - getAustrianDepositLocations:
+scan:
+  - recordScan:
+  - startSession:
+  - endSession:
+  - bulkUpload:
+  - getUserScans:
+social:
+  - getFriends:
+  - getUserBadges:
+  - awardBadge:
+  - checkAndAwardBadges:
+  - getAllBadges:
+  - createBadge:
+  - getLeaderboard:
+stats:
+  - totals:
+  - breakdown:
+  - exportCSV:
+  - getLeaderboard:
+greeting:
+  - hello:

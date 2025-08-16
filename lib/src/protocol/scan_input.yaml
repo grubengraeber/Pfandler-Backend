@@ -1,0 +1,20 @@
+class: ScanInput
+fields:
+  sessionId:
+    type: int?
+    scope: all
+  barcode:
+    type: String
+    scope: all
+  volumeML:
+    type: int?
+    scope: all
+  containerType:
+    type: String?
+    scope: all
+  depositCents:
+    type: int?
+    scope: all
+  source:
+    type: String
+    scope: all

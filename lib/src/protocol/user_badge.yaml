@@ -1,0 +1,16 @@
+class: UserBadge
+table: user_badge
+fields:
+  userId:
+    type: int
+    scope: all
+  badgeId:
+    type: int
+    scope: all
+  awardedAt:
+    type: DateTime
+    scope: all
+indexes:
+  user_badge_unique_idx:
+    fields: userId, badgeId
+    unique: true
