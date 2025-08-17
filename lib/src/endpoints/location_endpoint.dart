@@ -11,6 +11,16 @@ class LocationEndpoint extends Endpoint {
     LocationFilter? filters,
   }) async {
     try {
+      // Log the incoming request for debugging
+      session.log('Location nearby request - lat: $lat, lng: $lng, filters: ${filters?.toJson()}');
+      
+      // Validate coordinates
+      if (lat < -90 || lat > 90) {
+        throw ArgumentError('Invalid latitude: $lat. Must be between -90 and 90.');
+      }
+      if (lng < -180 || lng > 180) {
+        throw ArgumentError('Invalid longitude: $lng. Must be between -180 and 180.');
+      }
       final maxDistance = filters?.maxDistance;
       
       // If no maxDistance specified or it's very large (>100km), search all of Austria
@@ -72,8 +82,17 @@ class LocationEndpoint extends Endpoint {
       });
       
       return locations;
-    } catch (e) {
-      session.log('Error getting nearby locations: $e');
+    } catch (e, stackTrace) {
+      session.log('Error getting nearby locations: $e\nStack trace: $stackTrace');
+      
+      // Return empty list for now but log the full error
+      // In production, you might want to throw a proper exception
+      // that Serverpod can handle and return as HTTP 500
+      if (e is ArgumentError) {
+        rethrow; // Re-throw validation errors
+      }
+      
+      // For other errors, return empty list to prevent crash
       return [];
     }
   }
@@ -155,8 +174,8 @@ class LocationEndpoint extends Endpoint {
       
       session.log('Found ${locations.length} deposit locations across Austria');
       return locations;
-    } catch (e) {
-      session.log('Error searching all Austria: $e');
+    } catch (e, stackTrace) {
+      session.log('Error searching all Austria: $e\nStack trace: $stackTrace');
       return [];
     }
   }
@@ -188,8 +207,8 @@ class LocationEndpoint extends Endpoint {
 
       await LocationReport.db.insertRow(session, report);
       return report;
-    } catch (e) {
-      session.log('Error reporting location status: $e');
+    } catch (e, stackTrace) {
+      session.log('Error reporting location status: $e\nStack trace: $stackTrace');
       rethrow;
     }
   }
@@ -216,8 +235,8 @@ class LocationEndpoint extends Endpoint {
 
       await Location.db.insertRow(session, suggestedLocation);
       return suggestedLocation;
-    } catch (e) {
-      session.log('Error adding location: $e');
+    } catch (e, stackTrace) {
+      session.log('Error adding location: $e\nStack trace: $stackTrace');
       rethrow;
     }
   }
@@ -233,8 +252,8 @@ class LocationEndpoint extends Endpoint {
         session,
         where: (t) => t.userId.equals(authInfo.userId),
       );
-    } catch (e) {
-      session.log('Error getting favorite locations: $e');
+    } catch (e, stackTrace) {
+      session.log('Error getting favorite locations: $e\nStack trace: $stackTrace');
       return [];
     }
   }
@@ -266,8 +285,8 @@ class LocationEndpoint extends Endpoint {
 
       await FavoriteLocation.db.insertRow(session, favorite);
       return favorite;
-    } catch (e) {
-      session.log('Error adding favorite location: $e');
+    } catch (e, stackTrace) {
+      session.log('Error adding favorite location: $e\nStack trace: $stackTrace');
       rethrow;
     }
   }
@@ -288,8 +307,8 @@ class LocationEndpoint extends Endpoint {
                       t.locationId.equals(locationId),
       );
       return result.isNotEmpty;
-    } catch (e) {
-      session.log('Error removing favorite location: $e');
+    } catch (e, stackTrace) {
+      session.log('Error removing favorite location: $e\nStack trace: $stackTrace');
       return false;
     }
   }
@@ -354,8 +373,8 @@ class LocationEndpoint extends Endpoint {
       
       session.log('Successfully imported $imported new store locations');
       return stores;
-    } catch (e) {
-      session.log('Error importing Austrian stores: $e');
+    } catch (e, stackTrace) {
+      session.log('Error importing Austrian stores: $e\nStack trace: $stackTrace');
       rethrow;
     }
   }
@@ -410,8 +429,8 @@ class LocationEndpoint extends Endpoint {
       });
       
       return nearbyLocations;
-    } catch (e) {
-      session.log('Error getting Austrian deposit locations: $e');
+    } catch (e, stackTrace) {
+      session.log('Error getting Austrian deposit locations: $e\nStack trace: $stackTrace');
       return [];
     }
   }
