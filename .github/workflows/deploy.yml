@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Build and Deploy
 
 on:
   push:
@@ -71,7 +71,8 @@ jobs:
   build-and-push:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Only build if tests pass and on main branch
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
     
     permissions:
       contents: read
@@ -118,16 +119,29 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    # Only attempt deployment if secrets are configured
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
       - uses: actions/checkout@v4
       
+      - name: Check deployment secrets
+        run: |
+          if [ -z "${{ secrets.SERVER_HOST }}" ]; then
+            echo "::warning::SERVER_HOST secret is not configured. Skipping deployment."
+            echo "To enable deployment, add the following secrets to your repository:"
+            echo "  - SERVER_HOST: Your server IP address (138.199.195.211)"
+            echo "  - SERVER_USER: SSH username (root)"
+            echo "  - SERVER_SSH_KEY: Your SSH private key"
+            exit 0
+          fi
+      
       - name: Deploy to server
+        if: secrets.SERVER_HOST != ''
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
+          username: ${{ secrets.SERVER_USER || 'root' }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/serverpod/pfandler-backend
@@ -137,26 +151,14 @@ jobs:
             docker system prune -f
             
       - name: Verify deployment
+        if: secrets.SERVER_HOST != ''
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
+          username: ${{ secrets.SERVER_USER || 'root' }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             sleep 10
-            curl -f https://${{ secrets.DOMAIN }}/health || exit 1
+            curl -f https://api.pfandler.fabiotietz.com/health || exit 1
             echo "Deployment successful!"
       
-      - name: Send deployment notification
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: |
-            Deployment ${{ job.status }}
-            Repository: ${{ github.repository }}
-            Branch: ${{ github.ref }}
-            Commit: ${{ github.sha }}
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
