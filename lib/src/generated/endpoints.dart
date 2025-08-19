@@ -352,6 +352,37 @@ class Endpoints extends _i1.EndpointDispatch {
       name: 'location',
       endpoint: endpoints['location']!,
       methodConnectors: {
+        'findNearbyLocations': _i1.MethodConnector(
+          name: 'findNearbyLocations',
+          params: {
+            'latitude': _i1.ParameterDescription(
+              name: 'latitude',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'longitude': _i1.ParameterDescription(
+              name: 'longitude',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'maxDistance': _i1.ParameterDescription(
+              name: 'maxDistance',
+              type: _i1.getType<double?>(),
+              nullable: true,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['location'] as _i4.LocationEndpoint)
+                  .findNearbyLocations(
+            session,
+            params['latitude'],
+            params['longitude'],
+            maxDistance: params['maxDistance'],
+          ),
+        ),
         'nearby': _i1.MethodConnector(
           name: 'nearby',
           params: {

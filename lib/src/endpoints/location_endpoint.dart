@@ -4,6 +4,23 @@ import '../generated/protocol.dart';
 import '../services/store_locations_service.dart';
 
 class LocationEndpoint extends Endpoint {
+  // Alias for Flutter app compatibility
+  Future<List<Location>> findNearbyLocations(
+    Session session,
+    double latitude,
+    double longitude, {
+    double? maxDistance,
+  }) async {
+    // Create a filter with the maxDistance
+    LocationFilter? filter;
+    if (maxDistance != null) {
+      filter = LocationFilter(maxDistance: maxDistance);
+    }
+    
+    // Call the main nearby method
+    return nearby(session, latitude, longitude, filters: filter);
+  }
+  
   Future<List<Location>> nearby(
     Session session,
     double lat,

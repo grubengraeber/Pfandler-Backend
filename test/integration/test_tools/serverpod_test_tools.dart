@@ -603,6 +603,41 @@ class _LocationEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
+  _i3.Future<List<_i11.Location>> findNearbyLocations(
+    _i1.TestSessionBuilder sessionBuilder,
+    double latitude,
+    double longitude, {
+    double? maxDistance,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'location',
+        method: 'findNearbyLocations',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'location',
+          methodName: 'findNearbyLocations',
+          parameters: _i1.testObjectToJson({
+            'latitude': latitude,
+            'longitude': longitude,
+            'maxDistance': maxDistance,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<List<_i11.Location>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
   _i3.Future<List<_i11.Location>> nearby(
     _i1.TestSessionBuilder sessionBuilder,
     double lat,
